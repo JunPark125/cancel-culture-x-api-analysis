@@ -1,0 +1,4 @@
+requests>=2.31,<3
+pandas>=2.0,<3
+matplotlib>=3.8,<4
+tweepy>=4.14,<5
