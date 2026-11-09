@@ -15,7 +15,7 @@ Set `X_DATA_DIR` in the shell **before** starting a process to select a private 
   logs/
 ```
 
-Populate this layout only with authorized research inputs, keeping baseline versions aligned. Original datasets are intentionally not bundled. The simplified exports still contain user IDs and text and are not anonymized release data.
+Populate this layout only with authorized research inputs, keeping baseline versions aligned. The released chart inputs live separately under `data/historical/`. Simplified exports from the 2022 workflow contain user IDs and text and stay private.
 
 ## Offline processing
 
@@ -52,4 +52,4 @@ The plot CLI requires both monthly CSV paths, an output path, and a title identi
 python -m src.visualization.monthly_trends --help
 ```
 
-Place generated figures under ignored `results/figures/` or a private directory. No research figures are approved for staging. For notebooks, install Jupyter separately in a local environment; do not execute the historical collection cells without API authorization.
+Use a separate filename for generated figures. Only the reviewed original PNG is staged from `results/figures/`. The offline plotting command uses the released CSVs. [Reproduction instructions](../results/README.md)

@@ -45,3 +45,12 @@ x-api-local-audit/
 !data/summary/
 data/summary/*
 !data/summary/2022_collection_file_audit.csv
+
+# Reviewed historical chart and its two exact source tables.
+!data/historical/
+data/historical/*
+!data/historical/x_boycott_monthly_counts_2015_2025.csv
+!data/historical/x_cancel_monthly_counts_2015_2025.csv
+!results/figures/
+results/figures/*
+!results/figures/monthly_hashtag_trends_2015_2025.png

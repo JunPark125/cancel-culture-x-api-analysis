@@ -3,9 +3,12 @@
 README.md
 RELEASE_FILES.txt
 data/README.md
+data/historical/x_boycott_monthly_counts_2015_2025.csv
+data/historical/x_cancel_monthly_counts_2015_2025.csv
 data/sample/README.md
 data/sample/synthetic_posts.json
 data/summary/2022_collection_file_audit.csv
+docs/analysis_case_study.md
 docs/data_dictionary.md
 docs/methodology.md
 docs/project_overview.md
@@ -19,6 +22,7 @@ notebooks/historical_trends.ipynb
 reports/README.md
 requirements.txt
 results/README.md
+results/figures/monthly_hashtag_trends_2015_2025.png
 src/__init__.py
 src/analysis/__init__.py
 src/analysis/build_collected_monthly_counts.py

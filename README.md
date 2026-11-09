@@ -4,7 +4,7 @@
 
 This portfolio documents my technical work as an Undergraduate Research Assistant at the **UBC Sauder School of Business**, supervised by **Professor Jen Park**. The research examines cancellation and boycotting language on X through two complementary workflows: historical hashtag counts and a collection of individual posts from 2022.
 
-The portfolio pairs the implementation with a verified audit of the 2022 collection files and an offline demonstration. It covers my technical contributions to the broader research project.
+The portfolio pairs the implementation with an analysis of 11 years of monthly hashtag activity, a verified audit of the 2022 collection files, and an offline demonstration. It covers my technical contributions to the broader research project.
 
 ## Research scope
 
@@ -14,6 +14,23 @@ The portfolio pairs the implementation with a verified audit of the 2022 collect
 | Post collection | January–December 2022 | Post-level CSVs, simplified research exports, quality checks, and collection-gap reports |
 
 Both primary workflows use the exact queries `#cancel -is:retweet lang:en` and `#boycott -is:retweet lang:en`. These match hashtags in English posts and exclude retweets. They do not establish that every match concerns cancel culture. Replies and quote posts are not explicitly excluded. Broader phrase searches and causal or inferential statistical results are not claimed.
+
+## Research Results & Visualizations
+
+![Monthly Counts API trend lines for #cancel and #boycott, January 2015 through December 2025](results/figures/monthly_hashtag_trends_2015_2025.png)
+
+**`#boycott` led in 128 of 132 months, while `#cancel` was more concentrated around its largest spike.** In the two series plotted above, `#boycott` totaled 753,216 matches and peaked at 12,794 in February 2017. `#cancel` totaled 173,985 and peaked at 33,147 in September 2022. That peak month contributed 19.1% of the `#cancel` series total, compared with 1.7% for the peak month of `#boycott`. The contrast describes hashtag use under these queries. It leaves the causes of spikes and the prevalence of offline behavior open.
+
+The chart uses the archived `#hashtag_year_month` monthly Counts API tables. Both series contain every month from January 2015 to December 2025. The chart inputs and a separate set of daily-derived aggregates differ in monthly values and period totals. The results above use the chart inputs throughout. [One-page analysis case study](docs/analysis_case_study.md) · [Figure source and offline reproduction](results/README.md)
+
+### 2022 collection quality
+
+| Collection file | Stored rows | Distinct post IDs | Duplicate ID rows | Rows outside 2022 UTC |
+|---|---:|---:|---:|---:|
+| `#cancel` | 51,059 | 51,059 | 0 | 0 |
+| `#boycott` | 55,218 | 55,218 | 0 | 0 |
+
+The saved files share 137 IDs, yielding 106,140 distinct IDs combined. Every stored row had a nonblank ID and a parseable timestamp. These checks establish the quality and size of the saved files. Search availability and backfill history limit conclusions about collection coverage. [Collection audit CSV](data/summary/2022_collection_file_audit.csv)
 
 ## Technical contributions
 
@@ -70,19 +87,6 @@ python -m src.api_collection.backfill_x_posts_2022 --help
 
 Live collection requires credentials, account access, spending authorization, and an explicit `--allow-live-api` flag. No live request was used to prepare or validate this portfolio. See [usage](docs/usage.md) for input paths, offline processing, and backfill planning. Current access and billing must be checked with X before execution; old notebook cost estimates were removed.
 
-## Research Results & Visualizations
-
-| 2022 collection file | Stored rows | Distinct post IDs | Duplicate ID rows | Rows outside 2022 UTC |
-|---|---:|---:|---:|---:|
-| `#cancel` | 51,059 | 51,059 | 0 | 0 |
-| `#boycott` | 55,218 | 55,218 | 0 | 0 |
-
-The files share 137 IDs and contain 106,140 distinct IDs combined. Every stored row had a nonblank ID and a parseable timestamp. These checks describe the saved files. Search availability and backfill history limit conclusions about total hashtag activity. Some saved status reports no longer match the current raw files. [Collection audit CSV](data/summary/2022_collection_file_audit.csv).
-
-The original chart compares monthly Counts API results for `#cancel` and `#boycott` from January 2015 through December 2025. Its input tables came from the `#hashtag_year_month` directory. The daily-derived monthly and yearly tables in the parent trend directory reconcile with their own daily source, but differ from the chart inputs in month-level values and period totals. The surviving files do not establish why those versions diverged, so the chart and its source pair are kept together locally. [Figure provenance and release decision](results/README.md).
-
-The plotting code uses an outer join and fills unmatched months with zero. Confirm whether an unmatched month represents a missing observation before interpreting it as zero activity. [Monthly trend implementation](src/visualization/monthly_trends.py).
-
 ## Engineering challenges and limitations
 
 | Challenge | Implemented approach | Remaining limitation |
@@ -91,7 +95,7 @@ The plotting code uses an outer join and fills unmatched months with zero. Confi
 | Interrupted collection | Page-level checkpoints and deduplication against existing CSV IDs | CSV append and checkpoint update are not a single transaction; no concurrent-writer locking |
 | Temporary API failures | Bounded retries and header-based waits in the 2022 collector | Historical counts have simpler retry handling and no checkpoint recovery |
 | Count/search discrepancies | Monthly gap reports and smaller backfill windows | API counts are a reference, not a guaranteed recoverable population |
-| Reproducibility | Explicit schemas, documented provenance, synthetic offline tests | Restricted research data and unsettled source versions prevent full result reproduction here |
+| Reproducibility | Released chart inputs, documented provenance, offline tests | The post-level collection stays private and the reason for the historical version differences remains unresolved |
 
 ## Repository structure
 
@@ -107,8 +111,8 @@ cancel-culture-x-api-analysis/
 │   ├── analysis/              # Aggregation, quality checks, collection gaps
 │   └── visualization/         # Monthly time-series plotting
 ├── notebooks/                # Sanitized source; original outputs removed
-├── data/                      # Verified file audit and synthetic fixtures
-├── results/README.md          # Research-output availability
+├── data/                      # Monthly chart inputs, file audit, synthetic fixtures
+├── results/                   # Original trend figure and offline plotting instructions
 ├── reports/README.md          # Restricted-report availability
 ├── tests/                     # Offline tests with synthetic responses
 └── tools/check_release.py     # Staged-file review checks
@@ -116,6 +120,6 @@ cancel-culture-x-api-analysis/
 
 ## Data availability and confidentiality
 
-The supervisor authorized the private portfolio release. It includes the reviewed implementation and the aggregate file audit. Raw and processed post records, API count tables, count-derived figures, reports, and credentials stay in the research workspace. The separate Reddit project is outside scope. [Release allowlist](RELEASE_FILES.txt).
+The private portfolio release includes the original monthly trend figure, its two reviewed aggregate inputs, and the collection file audit. Raw and processed post records, other count exports, internal reports, and credentials stay in the research workspace. [Release allowlist](RELEASE_FILES.txt).
 
-X redistribution restrictions apply independently of supervisor approval and repository visibility. [Data handling and policy references](docs/security_and_sharing.md), [data dictionary](docs/data_dictionary.md), [methodology](docs/methodology.md), and [source provenance](docs/source_provenance.md).
+The sharing review applies to these specific assets. [Data handling and policy references](docs/security_and_sharing.md) · [Data dictionary](docs/data_dictionary.md) · [Methodology](docs/methodology.md) · [Source provenance](docs/source_provenance.md)

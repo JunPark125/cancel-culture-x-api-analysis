@@ -1,5 +1,6 @@
-"""Check exact staged paths and inspect staged text; does not stage or upload."""
+"""Verify the exact staged release paths, text, and approved figure."""
 import csv
+import hashlib
 import io
 import json
 import re
@@ -8,6 +9,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FILE_AUDIT = 'data/summary/2022_collection_file_audit.csv'
+TREND_FIGURE = 'results/figures/monthly_hashtag_trends_2015_2025.png'
+TREND_FIGURE_SHA256 = '3767b9a47a43b58465847f31539fa7bcebf538df7c9fa9b604e497549d3d18ae'
+TREND_COUNTS = {
+    'data/historical/x_boycott_monthly_counts_2015_2025.csv',
+    'data/historical/x_cancel_monthly_counts_2015_2025.csv',
+}
 AUDIT_HEADER = [
     'collection', 'stored_rows', 'distinct_post_ids', 'duplicate_id_rows',
     'missing_id_rows', 'invalid_timestamp_rows', 'outside_2022_utc_rows',
@@ -33,8 +40,12 @@ def main():
     problems = []
     for name in sorted(tracked):
         blob = git('show', ':'+name)
+        if name == TREND_FIGURE:
+            if hashlib.sha256(blob).hexdigest() != TREND_FIGURE_SHA256:
+                problems.append((name, 'figure fingerprint differs from the reviewed original'))
+            continue
         try:
-            text = blob.decode('utf-8')
+            text = blob.decode('utf-8-sig')
         except UnicodeDecodeError:
             problems.append((name, 'unexpected binary'))
             continue
@@ -52,11 +63,19 @@ def main():
                            or any(not re.fullmatch(r'[0-9]{1,8}', value) for value in row[1:])
                            for row in rows[1:])):
                 problems.append((name, 'expected two file-audit rows with numeric counters only'))
+        elif name in TREND_COUNTS:
+            rows = list(csv.reader(io.StringIO(text)))
+            months = [f'{year}-{month:02d}' for year in range(2015, 2026) for month in range(1, 13)]
+            if (len(rows) != 133 or rows[0] != ['month', 'monthly_count']
+                    or any(len(row) != 2 or row[0] != month
+                           or not re.fullmatch(r'[0-9]{1,8}', row[1])
+                           for month, row in zip(months, rows[1:]))):
+                problems.append((name, 'expected 132 consecutive months and aggregate counts only'))
         elif name.endswith(('.csv', '.env', '.docx', '.png', '.log', '.parquet')):
             problems.append((name, 'prohibited artifact type'))
     if problems:
         raise SystemExit(str(problems))
-    print(f'PASS: {len(tracked)} staged paths match the explicit allowlist; text checks passed.')
+    print(f'PASS: {len(tracked)} staged paths match the allowlist; text and asset checks passed.')
     print('Review the staged diff and ownership permission separately before any private upload.')
 
 
