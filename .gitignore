@@ -40,3 +40,8 @@ reports/*
 *token*
 local-audit/
 x-api-local-audit/
+
+# The reviewed collection file audit contains summary counters only.
+!data/summary/
+data/summary/*
+!data/summary/2022_collection_file_audit.csv

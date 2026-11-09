@@ -1,7 +1,7 @@
 # Research results and figures
 
-No original research result or figure is approved for distribution in this repository. The local audit records an existing monthly line comparison for the exact `#cancel` and `#boycott` queries, covering January 2015 through December 2025. It is embedded in the historical notebook and in an unpublished Word report.
+The workspace contains one distinct X research chart, embedded in cell 7 of the historical notebook and as an image in an unpublished Word report. It compares monthly Counts API values for the exact English, non-retweet `#cancel` and `#boycott` queries from January 2015 through December 2025. The two embeddings have identical decoded pixels.
 
-The plotting code reads the original `#hashtag_year_month` monthly tables. Those tables differ from the trend directory's daily-derived aggregates, so the chart cannot be described as reproducing the latter without resolving provenance. The code's outer join and zero fill also require coverage review.
+The plotting code reads the original `#hashtag_year_month` monthly tables. Those tables differ from the trend directory's daily-derived aggregates. The input versions are preserved separately, and the cause of their differences remains unresolved. The code's outer join and zero fill also require coverage review before interpreting the chart.
 
-The existing figure files are inventoried outside Git. The reusable plot implementation is in `src/visualization/monthly_trends.py`; generated figures are ignored. No new chart is presented as an original research result. No empty `figures/` or `tables/` placeholder directories are committed.
+The figure remains local because it displays a derivative of the Counts API series and the applicable X redistribution permission was not established. The verified 2022 collection file audit is available as an aggregate CSV. [Plot implementation](../src/visualization/monthly_trends.py), [collection audit](../data/summary/2022_collection_file_audit.csv), and [policy review](../docs/security_and_sharing.md).

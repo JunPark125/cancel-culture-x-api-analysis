@@ -4,7 +4,7 @@
 
 This portfolio documents my technical work as an Undergraduate Research Assistant at the **UBC Sauder School of Business**, supervised by **Professor Jen Park**. The research examines cancellation and boycotting language on X through two complementary workflows: historical hashtag counts and a collection of individual posts from 2022.
 
-The repository presents the implementation and an offline synthetic demonstration. Research datasets, unpublished findings, and original figures are withheld. The research role and supervision are supplied by the project owner; the technical capabilities below were checked against the existing source files. This is a portfolio of my research support work, not a claim to sole authorship of the broader study.
+The portfolio pairs the implementation with a verified audit of the 2022 collection files and an offline demonstration. It covers my technical contributions to the broader research project.
 
 ## Research scope
 
@@ -70,11 +70,18 @@ python -m src.api_collection.backfill_x_posts_2022 --help
 
 Live collection requires credentials, account access, spending authorization, and an explicit `--allow-live-api` flag. No live request was used to prepare or validate this portfolio. See [usage](docs/usage.md) for input paths, offline processing, and backfill planning. Current access and billing must be checked with X before execution; old notebook cost estimates were removed.
 
-## Verified implementation and result availability
+## Research Results & Visualizations
 
-The original workspace contains count tables, collected post files, derived exports, quality/gap reports, and a saved monthly trend figure. The audit also found differing versions of historical count tables and stale status reports. These remain unresolved provenance issues; this repository publishes no numerical research findings or original visualizations. The detailed reconciliation and figure inventory are retained outside Git in a local-only audit.
+| 2022 collection file | Stored rows | Distinct post IDs | Duplicate ID rows | Rows outside 2022 UTC |
+|---|---:|---:|---:|---:|
+| `#cancel` | 51,059 | 51,059 | 0 | 0 |
+| `#boycott` | 55,218 | 55,218 | 0 | 0 |
 
-The original monthly plotting code is available in [monthly_trends.py](src/visualization/monthly_trends.py). It uses an outer join and fills missing values with zero; missing data therefore need review before interpretation. [Results policy](results/README.md) explains what is withheld.
+The files share 137 IDs and contain 106,140 distinct IDs combined. Every stored row had a nonblank ID and a parseable timestamp. These checks describe the saved files. Search availability and backfill history limit conclusions about total hashtag activity. Some saved status reports no longer match the current raw files. [Collection audit CSV](data/summary/2022_collection_file_audit.csv).
+
+The original chart compares monthly Counts API results for `#cancel` and `#boycott` from January 2015 through December 2025. Its input tables came from the `#hashtag_year_month` directory. The daily-derived monthly and yearly tables in the parent trend directory reconcile with their own daily source, but differ from the chart inputs in month-level values and period totals. The surviving files do not establish why those versions diverged, so the chart and its source pair are kept together locally. [Figure provenance and release decision](results/README.md).
+
+The plotting code uses an outer join and fills unmatched months with zero. Confirm whether an unmatched month represents a missing observation before interpreting it as zero activity. [Monthly trend implementation](src/visualization/monthly_trends.py).
 
 ## Engineering challenges and limitations
 
@@ -100,7 +107,7 @@ cancel-culture-x-api-analysis/
 │   ├── analysis/              # Aggregation, quality checks, collection gaps
 │   └── visualization/         # Monthly time-series plotting
 ├── notebooks/                # Sanitized source; original outputs removed
-├── data/sample/               # Clearly labeled synthetic fixtures
+├── data/                      # Verified file audit and synthetic fixtures
 ├── results/README.md          # Research-output availability
 ├── reports/README.md          # Restricted-report availability
 ├── tests/                     # Offline tests with synthetic responses
@@ -109,6 +116,6 @@ cancel-culture-x-api-analysis/
 
 ## Data availability and confidentiality
 
-No raw posts, user identifiers, real post text, labeled datasets, original reports, credentials, or research results belong in this repository. Synthetic examples do not reproduce source records. The separate Reddit research project is outside scope. Files are staged with an explicit allowlist as well as `.gitignore` protections.
+The supervisor authorized the private portfolio release. It includes the reviewed implementation and the aggregate file audit. Raw and processed post records, API count tables, count-derived figures, reports, and credentials stay in the research workspace. The separate Reddit project is outside scope. [Release allowlist](RELEASE_FILES.txt).
 
-External storage is subject to project-specific ownership and sharing permission, even for a private repository. No reuse license is asserted while ownership is unresolved. See [data handling and policy references](docs/security_and_sharing.md), [data dictionary](docs/data_dictionary.md), [methodology](docs/methodology.md), and [source provenance](docs/source_provenance.md).
+X redistribution restrictions apply independently of supervisor approval and repository visibility. [Data handling and policy references](docs/security_and_sharing.md), [data dictionary](docs/data_dictionary.md), [methodology](docs/methodology.md), and [source provenance](docs/source_provenance.md).

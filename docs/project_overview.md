@@ -11,4 +11,4 @@ An earlier Balenciaga recent-search experiment is retained as a separate histori
 
 X-specific model-labeling scripts and their outputs were also discovered. They contain project-specific classification instructions and remain local pending separate permission. Their existence does not establish validated classification accuracy. No model-labeling request was executed for this portfolio.
 
-The portfolio excludes all original research data and original figures. A local audit records actual file sizes, hashes, row counts, and unresolved differences between source versions. The committed demonstration is synthetic and exists to make the engineering workflow reviewable without research-data access.
+The portfolio includes verified aggregate file checks for the 2022 collection. The original research data, counts, and figures stay local. The synthetic demonstration makes the engineering workflow reviewable without research data. [Collection audit](../data/summary/2022_collection_file_audit.csv).

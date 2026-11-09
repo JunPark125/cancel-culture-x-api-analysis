@@ -16,6 +16,6 @@ All source research folders were preserved. The following paths are relative to 
 | `Hashtag_cancel_bboycott/x_2022_cancel_boycott_project/compare/compare.ipynb` | `notebooks/collected_monthly_counts.ipynb` | Outputs/metadata removed; repository-root detection |
 | `balenciaga_test.py` | `src/api_collection/balenciaga_pilot.py` | Removed embedded credential; main guard and live flag; private output path; original query, fixed interval, single-page behavior retained |
 
-No raw or derived CSV was copied into the release. Existing plot outputs, report documents, model-labeling prompts/scripts, logs, checkpoint states, token files, and local environments are excluded. File-level inventory, SHA-256 hashes, exact data statistics, and count-version reconciliation are retained in the separate local audit.
+The collection audit CSV was recomputed from the original 2022 raw masters using row and validity checks. Original datasets, plot outputs, report documents, model-labeling prompts and scripts, logs, checkpoint states, token files, and local environments remain outside the release. The separate local audit retains source hashes and count-version reconciliation. [Collection audit provenance](../data/README.md).
 
 The collection and processing modules are source copies with documented edits, not newly invented evidence of prior functionality. Synthetic fixtures, tests, the demo, and documentation are new preparation artifacts.

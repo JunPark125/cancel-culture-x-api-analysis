@@ -5,6 +5,7 @@ RELEASE_FILES.txt
 data/README.md
 data/sample/README.md
 data/sample/synthetic_posts.json
+data/summary/2022_collection_file_audit.csv
 docs/data_dictionary.md
 docs/methodology.md
 docs/project_overview.md
